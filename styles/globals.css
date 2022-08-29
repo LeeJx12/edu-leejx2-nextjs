@@ -24,3 +24,7 @@ a {
     background: black;
   }
 }
+
+.cur_p {
+  cursor: pointer;
+}
