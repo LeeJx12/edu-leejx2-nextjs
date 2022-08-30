@@ -1,7 +1,6 @@
 import { AudioList, AudioPlayer } from './components'
 import { Track, TrackState } from './types';
 import { RecoilRoot, atom } from 'recoil';
-import { getTracks } from './functions';
 
 import styles from '../../../styles/Typescript.module.css'
 
@@ -13,12 +12,6 @@ export default function Index(): JSX.Element {
             _trackList: [] as Array<Track>
         }
     });
-
-    getTracks()
-        .then(fileList => {
-            console.log(fileList);
-        })
-        .catch(console.error);
 
     return (
         <>

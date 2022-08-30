@@ -23,7 +23,7 @@ export function AudioPlayer(props: { _trackState: RecoilState<TrackState> }): JS
 
     return (
         <>
-            <audio id="player"></audio>
+            <audio id="player" src="http://localhost:3000/api/audio"></audio>
         </>
     );
 }

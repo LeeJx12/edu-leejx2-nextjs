@@ -3,14 +3,16 @@ import { parseFile } from 'music-metadata';
 const _trackList = [];
 
 export default function handler(req, res) {
-    const { callType } = JSON.parse(req.body);
+    const { callType, fileName = '' } = JSON.parse(req.body);
 
-    if ('INIT' === callType) {
-        init(res);
-    } else if ('LIST' === callType) {
-        res.status(200).json(_trackList);
-    } else if ('GET' === callType) {
-
+    if ('POST' === req.method) {
+        if ('INIT' === callType) {
+            init(res);
+        } else if ('LIST' === callType) {
+            res.status(200).json(_trackList);
+        }
+    } else {
+        get('incoming.wav');
     }
 }
 
@@ -37,4 +39,22 @@ function init(res) {
     });
 
     res.status(200);
+}
+
+function get(fileName, res) {
+    const audioPath = process.env.NEXT_PUBLIC_AUDIO_PATH;
+    const stream = fs.createReadStream(`${audioPath}/${fileName}`);
+
+    stream.on('data', data => {
+        res.write((data));
+    })
+
+    stream.on('end', () => {
+        res.end();
+    })
+
+    stream.on('error', err => {
+        console.error(err);
+        res.status(500);
+    })
 }

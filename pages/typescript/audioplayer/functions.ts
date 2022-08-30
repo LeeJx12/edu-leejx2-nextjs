@@ -1,6 +1,14 @@
 import { AUDIO_PLAYER_CONSTANTS } from "./constants";
 import { Track } from "./types";
 
+export function init(): void {
+    getTracks()
+        .then(fileList => {
+            console.log(fileList);
+        })
+        .catch(console.error);
+}
+
 export function getTracks(): Promise<any> {
     return new Promise((resolve, reject) => {
         fetch(`${process.env.NEXT_PUBLIC_URL}/api/audio`, {
