@@ -1,11 +1,19 @@
 import { AudioList, AudioPlayer } from './components'
-import { Track, TrackState } from './types';
-import { RecoilRoot, atom } from 'recoil';
+import { Track } from './types';
+import { RecoilRoot, atom, selector } from 'recoil';
 
 import styles from '../../../styles/Typescript.module.css'
+import { getTracks } from './functions';
 
 export default function Index(): JSX.Element {
-    const trackState = atom({
+    fetch(`${process.env.NEXT_PUBLIC_URL}/api/audio`, {
+        method: 'POST',
+        body: JSON.stringify({
+            callType: 'INIT'
+        })
+    })
+    
+    let trackState = atom({
         key: 'trackState',
         default: {
             _selectedTrack: undefined as Track,

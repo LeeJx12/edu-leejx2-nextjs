@@ -8,13 +8,19 @@ export type TrackState = {
 export type Track = {
     _trackId: string,
 
-    _trackName: string,
+    _album: string,
 
-    _trackNo: number,
+    _genre: Array<string>,
 
-    _filePath: string,
+    _title: string,
 
-    _isSelected: boolean,
+    _artist: string,
+
+    _artists: Array<string>,
+
+    _year: number,
+
+    _duration: number,
 }
 
 export type Player = {

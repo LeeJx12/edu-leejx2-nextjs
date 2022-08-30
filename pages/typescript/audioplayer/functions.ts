@@ -1,15 +1,7 @@
 import { AUDIO_PLAYER_CONSTANTS } from "./constants";
 import { Track } from "./types";
 
-export function init(): void {
-    getTracks()
-        .then(fileList => {
-            console.log(fileList);
-        })
-        .catch(console.error);
-}
-
-export function getTracks(): Promise<any> {
+export function getTracks(): Promise<Array<Track>> {
     return new Promise((resolve, reject) => {
         fetch(`${process.env.NEXT_PUBLIC_URL}/api/audio`, {
             method: 'POST',
@@ -17,7 +9,12 @@ export function getTracks(): Promise<any> {
                 callType: AUDIO_PLAYER_CONSTANTS.API_CALL_LIST
             })
         })
-        .then(response => resolve(response.json()))
+        .then(response => response.json())
+        .then(result => {
+            console.log(result);
+            return result
+        })
+        .then(resolve)
         .catch(reject);    
     })
 }
