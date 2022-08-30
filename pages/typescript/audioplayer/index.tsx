@@ -1,14 +1,24 @@
 import { AudioList, AudioPlayer } from './components'
-import { Track } from './types';
-import { RecoilRoot, atom } from 'node_modules/recoil/index';
+import { Track, TrackState } from './types';
+import { RecoilRoot, atom } from 'recoil';
+import { getTracks } from './functions';
 
 import styles from '../../../styles/Typescript.module.css'
 
 export default function Index(): JSX.Element {
     const trackState = atom({
-        key: 'selectedTrack',
-        default: undefined as Track
+        key: 'trackState',
+        default: {
+            _selectedTrack: undefined as Track,
+            _trackList: [] as Array<Track>
+        }
     });
+
+    getTracks()
+        .then(fileList => {
+            console.log(fileList);
+        })
+        .catch(console.error);
 
     return (
         <>

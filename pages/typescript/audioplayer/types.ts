@@ -1,4 +1,10 @@
 
+export type TrackState = {
+    _selectedTrack: Track,
+
+    _trackList: Array<Track>
+}
+
 export type Track = {
     _trackId: string,
 
