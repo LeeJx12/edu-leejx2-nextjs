@@ -6,17 +6,10 @@ import { getTracks } from './functions';
 import { TrackStore } from './store';
 
 export default function Index(): JSX.Element {
-    fetch(`${process.env.NEXT_PUBLIC_URL}/api/audio`, {
-        method: 'POST',
-        body: JSON.stringify({
-            callType: 'INIT'
+    getTracks()
+        .then(trackList => {
+            TrackStore.setTrackList(trackList);
         })
-    }).then(() => {
-        getTracks()
-            .then(trackList => {
-                TrackStore.setTrackList(trackList);
-            })
-    })
 
     return (
         <>

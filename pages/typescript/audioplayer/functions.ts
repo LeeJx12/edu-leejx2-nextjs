@@ -3,15 +3,10 @@ import { Track } from "./types";
 
 export function getTracks(): Promise<Array<Track>> {
     return new Promise((resolve, reject) => {
-        fetch(`${process.env.NEXT_PUBLIC_URL}/api/audio`, {
-            method: 'POST',
-            body: JSON.stringify({
-                callType: AUDIO_PLAYER_CONSTANTS.API_CALL_LIST
-            })
-        })
+        fetch(`${process.env.NEXT_PUBLIC_AUDIO_SERVER_URL}/list`)
         .then(response => response.json())
         .then(result => {
-            console.log(result);
+            console.log('getTracks Success');
             return result
         })
         .then(resolve)

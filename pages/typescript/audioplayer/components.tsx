@@ -13,13 +13,19 @@ export function AudioList(props: {  }): JSX.Element {
     return (
         <ul className="list-group">
             {
-                _trackList.map((track, idx) => {
+                _trackList && _trackList.length > 0 && _trackList.map((track, idx) => {
                     return (
                         <li key={track._trackId} className="list-group-item">
                             {track._title}
                         </li>
                     )
                 })
+            }
+            {
+                (!_trackList || _trackList.length === 0) &&
+                <li>
+                    there is no file!
+                </li>
             }
         </ul>
     );

@@ -13,12 +13,10 @@
     "bootstrap": "^5.2.0",
     "mobx": "^6.6.1",
     "mobx-react": "^7.5.2",
-    "music-metadata": "^8.0.1",
     "next": "12.2.5",
     "popper.js": "^1.16.1",
     "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "uuid": "^8.3.2"
+    "react-dom": "18.2.0"
   },
   "devDependencies": {
     "@types/node": "^18.7.14",
