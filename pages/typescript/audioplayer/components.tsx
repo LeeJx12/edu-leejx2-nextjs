@@ -1,32 +1,14 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import { Track, TrackState } from './types';
-import { RecoilState, useSetRecoilState, useRecoilValue } from 'recoil';
 
 import styles from '../../../styles/Typescript.module.css'
 import { getTracks } from './functions';
+import { TrackStore } from './store';
 
 let prevTrackList = undefined;
 
-export function AudioList(props: { _trackState: RecoilState<TrackState> }): JSX.Element {
-    const { _trackState } = props;
-    const setTrack = useSetRecoilState(_trackState);
-
-    getTracks()
-        .then(trackList => {
-            if (prevTrackList !== undefined) return;
-            
-            console.log(trackList)
-
-            prevTrackList = trackList;
-
-            setTrack({
-                _selectedTrack: undefined,
-                _trackList: trackList
-            })
-        })
-    .catch(console.error);
-
-    const { _trackList } = useRecoilValue(_trackState);
+export function AudioList(props: {  }): JSX.Element {
+    const _trackList = TrackStore.getTrackList();
 
     return (
         <ul className="list-group">
@@ -43,9 +25,7 @@ export function AudioList(props: { _trackState: RecoilState<TrackState> }): JSX.
     );
 }
 
-export function AudioPlayer(props: { _trackState: RecoilState<TrackState> }): JSX.Element {
-    const { _trackState } = props;
-    const track = useRecoilValue(_trackState);
+export function AudioPlayer(props: {  }): JSX.Element {
 
     return (
         <>

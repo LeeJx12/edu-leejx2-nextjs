@@ -1,4 +1,4 @@
-import { randomUUID } from 'crypto';
+import { v4 as uuidv4 } from 'uuid';
 import { parseFile } from 'music-metadata';
 
 let _trackList = [];
@@ -9,9 +9,9 @@ export default function handler(req, res) {
         const { callType, fileName = '' } = JSON.parse(req.body);
     
         if ('INIT' === callType) {
-            init(res);
+            if (_trackList.length !== 0) init(res);
+            else res.status(200).send('');
         } else if ('LIST' === callType) {
-            console.log(_trackList)
             res.status(200).json(_trackList);
         }
     } else {
@@ -40,9 +40,6 @@ function init(res) {
         if (error) {
             console.error(error);
         } else {
-            _trackList = [];
-            _trackImgMap = {};
-
             const promiseList = [];
             fileList.forEach(file => {
                 promiseList.push(parseFile(`${audioPath}/${file}`))
@@ -51,7 +48,7 @@ function init(res) {
             Promise.all(promiseList)
                 .then(result => {
                     result.forEach(item => {
-                        const trackId = randomUUID();
+                        const trackId = uuidv4();
                         const track = {
                             _trackId: trackId,
                             _album: item.common.album.toString('utf8'),
@@ -67,12 +64,17 @@ function init(res) {
                         _trackImgMap[trackId] = getImage(item.common.picture);
                     })
                 })
-                .then(() => console.log('Audio Initialized'))
-                .catch(console.error);
+                .then(() => {
+                    console.log(_trackList)
+                    console.log('Audio Initialized')
+                    res.status(200).send('');
+                })
+                .catch(e => {
+                    console.error(e);
+                    res.status(500).send(e);
+                });
         }
     });
-
-    res.status(200).send('');
 }
 
 function getPicture(query) {
