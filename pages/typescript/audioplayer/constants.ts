@@ -1,5 +1,0 @@
-export const AUDIO_PLAYER_CONSTANTS = {
-    API_CALL_INIT: 'INIT',
-    API_CALL_LIST: 'LIST',
-    API_CALL_GET: 'GET'
-}

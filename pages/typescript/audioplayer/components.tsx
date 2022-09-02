@@ -2,10 +2,11 @@ import React, { Dispatch, SetStateAction, useContext, useEffect, useState } from
 import { Track } from './types';
 
 import styles from '../../../styles/Typescript.module.css'
-import { TrackStore } from './store';
+import { TrackStore } from '../../store';
 import { action, flow, observable, runInAction } from 'mobx';
-import { StoreContext, useStore } from './context';
+import { StoreContext, useStore } from '../../context';
 import { getTracks } from './functions';
+import { Observer } from 'mobx-react';
 
 export function App() {
     return (
@@ -19,33 +20,42 @@ export function App() {
 export default App;
 
 export function AudioList(): JSX.Element {
-    const trackStore = useStore();
-    const [ _trackStore, _setTrackStore ] = useState(trackStore);
+    const { trackStore } = useStore();
 
-    const _trackList = _trackStore.trackList;
+    const _trackList = trackStore.trackList;
 
     getTracks()
-        .then(trackList => _trackStore.trackList = trackList)
-        .then(() => _setTrackStore(_trackStore));
+        .then(trackList => trackStore.trackList = trackList);
+
+    //const [ _trackList, _setTrackList ] = useState(trackStore.trackList);
+
+    // useEffect(() => {
+    //     getTracks()
+    //         .then(trackList => _setTrackList(trackList));
+    // }, []);
 
     return (
-        <ul className="list-group">
-            {
-                _trackList && _trackList.length > 0 && _trackList.map((track, idx) => {
-                    return (
-                        <li key={track._trackId} className="list-group-item">
-                            {track._title}
-                        </li>
-                    )
-                })
-            }
-            {
-                (!_trackList || _trackList.length === 0) &&
-                <li key="empty">
-                    there is no file!
-                </li>
-            }
-        </ul>
+        <Observer>
+        {() => (
+            <ul className="list-group">
+                {
+                    trackStore.trackList && trackStore.trackList.length > 0 && trackStore.trackList.map((track, idx) => {
+                        return (
+                            <li key={track._trackId} className="list-group-item">
+                                {track._title}
+                            </li>
+                        )
+                    })
+                }
+                {
+                    (!trackStore.trackList || trackStore.trackList.length === 0) &&
+                    <li key="empty">
+                        there is no file!
+                    </li>
+                }
+            </ul>
+        )}
+        </Observer>
     );
 }
 

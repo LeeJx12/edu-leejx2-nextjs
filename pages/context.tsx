@@ -1,14 +1,21 @@
 import { createContext, useContext, useMemo } from 'react'
-import { TrackStore } from './store'
+import { RootStore } from './store'
 
-let store: TrackStore;
-export const StoreContext = createContext(new TrackStore());
+let store: RootStore;
+export const StoreContext = createContext(new RootStore());
+export function StoreProvider({children, data}) {
+    const store = initializeStore(data);
+
+    return (
+        <StoreContext.Provider value={store}>{children}</StoreContext.Provider>
+    )
+}
 export function useStore() {
     return useContext(StoreContext);
 };
 
 export function initializeStore(initialData = null) {
-    const _store = store ?? new TrackStore()
+    const _store = store ?? new RootStore()
     //  데이터를 가져오는 메서드가 있는 경우 여기에서 hydrate 됨. 
     if (initialData) {
         _store.hydrate(initialData)
