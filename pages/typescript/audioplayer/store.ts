@@ -1,23 +1,22 @@
-import { observable } from "mobx";
+import { action, makeAutoObservable, makeObservable, observable, runInAction } from "mobx";
+import { enableStaticRendering } from "mobx-react";
+import { StoreContext, useStore } from "./context";
+import { getTracks } from "./functions";
 import { Track } from "./types";
 
-export const TrackStore = observable({
-    _selectedTrack: undefined,
-    _trackList: [],
+enableStaticRendering(typeof window === 'undefined')
 
-    setTrackList(trackList: Array<Track>): void {
-        this._trackList = trackList;
-    },
+export class TrackStore {
+    selectedTrack: Track;
 
-    getTrackList(): Array<Track> {
-        return this._trackList;
-    },
+    trackList: Array<Track>;
 
-    setSelectedTrack(track: Track): void {
-        this._selectedTrack = track;
-    },
+    constructor() {
+        makeAutoObservable(this, {}, {autoBind: true});
+    }
 
-    getSelectedTrack(): Track {
-        return this._selectedTrack;
-    },
-})
+    hydrate(data) {
+        this.selectedTrack = data._selectedTrack;
+        this.trackList = data._trackList;
+    }
+}

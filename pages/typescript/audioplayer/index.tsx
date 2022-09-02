@@ -1,24 +1,17 @@
-import { AudioList, AudioPlayer } from './components'
-import { Track } from './types';
-
+import { observable } from 'mobx';
+import React from 'react';
 import styles from '../../../styles/Typescript.module.css'
+import App from './components';
+import { initializeStore, StoreContext, useStore } from './context';
 import { getTracks } from './functions';
 import { TrackStore } from './store';
-import { Provider } from 'mobx-react';
 
 export default function Index(): JSX.Element {
-    TrackStore.hydrate();
-    getTracks()
-        .then(trackList => {
-            TrackStore.setTrackList(trackList);
-        })
+    const trackStore = initializeStore();
 
     return (
-        <Provider>
-            <div className="container-fluid p-0">
-                <AudioList/>
-                <AudioPlayer/>
-            </div>
-        </Provider>
+        <StoreContext.Provider value={trackStore}>
+            <App></App>
+        </StoreContext.Provider>
     )
 }

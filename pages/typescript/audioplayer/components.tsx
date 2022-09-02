@@ -1,14 +1,32 @@
-import React, { Dispatch, SetStateAction } from 'react';
-import { Track, TrackState } from './types';
+import React, { Dispatch, SetStateAction, useContext, useEffect, useState } from 'react';
+import { Track } from './types';
 
 import styles from '../../../styles/Typescript.module.css'
-import { getTracks } from './functions';
 import { TrackStore } from './store';
+import { action, flow, observable, runInAction } from 'mobx';
+import { StoreContext, useStore } from './context';
+import { getTracks } from './functions';
 
-let prevTrackList = undefined;
+export function App() {
+    return (
+        <div className="container-fluid p-0">
+            <AudioList/>
+            <AudioPlayer/>
+        </div>
+    )
+};
 
-export function AudioList(props: {  }): JSX.Element {
-    const _trackList = TrackStore.getTrackList();
+export default App;
+
+export function AudioList(): JSX.Element {
+    const trackStore = useStore();
+    const [ _trackStore, _setTrackStore ] = useState(trackStore);
+
+    const _trackList = _trackStore.trackList;
+
+    getTracks()
+        .then(trackList => _trackStore.trackList = trackList)
+        .then(() => _setTrackStore(_trackStore));
 
     return (
         <ul className="list-group">
@@ -23,7 +41,7 @@ export function AudioList(props: {  }): JSX.Element {
             }
             {
                 (!_trackList || _trackList.length === 0) &&
-                <li>
+                <li key="empty">
                     there is no file!
                 </li>
             }
