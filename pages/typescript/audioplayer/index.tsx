@@ -1,13 +1,18 @@
 import { observable } from 'mobx';
 import React from 'react';
 import styles from '../../../styles/Typescript.module.css'
-import App from './components';
 import { initializeStore, StoreContext, useStore } from '../../context';
 import { getTracks } from './functions';
 import { TrackStore } from '../../store';
+import { AudioList, AudioPlayer } from './components';
 
 export default function Index(): JSX.Element {
     return (
-            <App></App>
+        <div className="container-fluid p-0">
+            <div className="row">
+                <AudioList/>
+                <AudioPlayer/>
+            </div>
+        </div>
     )
 }

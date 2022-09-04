@@ -28,5 +28,22 @@
 }
 
 .audio_list {
-  width: 500px;
+  min-width: 350px;
+  max-width: 350px;
+}
+
+.list-group-item {
+  height: 70px;
+}
+
+.img-thumbnail {
+  width: auto;
+  height: 50px;
+  margin: auto;
+}
+
+.list-item-title {
+  margin-left: 10px;
+  font-size: 1rem;
+  font-weight: 500;
 }

@@ -1,9 +1,8 @@
-import { AUDIO_PLAYER_CONSTANTS } from "./constants";
 import { Track } from "./types";
 
 export function getTracks(): Promise<Array<any>> {
     return new Promise((resolve, reject) => {
-        fetch(`${process.env.NEXT_PUBLIC_AUDIO_SERVER_URL}/list`)
+        fetch(`${process.env.NEXT_PUBLIC_AUDIO_SERVER_URL}/audio`)
         .then(response => response.json())
         .then(resolve)
         .catch(reject);    

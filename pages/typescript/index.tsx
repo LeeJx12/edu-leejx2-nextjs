@@ -1,5 +1,6 @@
 import Link from "node_modules/next/link";
 import styles from '../../styles/Typescript.module.css'
+import '../../styles/Typescript.module.css'
 
 export default function Typescript(): JSX.Element {
     return (
