@@ -15,6 +15,8 @@ export type Track = {
     _year: number,
 
     _duration: number,
+
+    _listItem: JSX.Element
 }
 
 export type Player = {

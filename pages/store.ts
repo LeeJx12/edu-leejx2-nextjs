@@ -36,7 +36,7 @@ export class TrackStore {
     }
 
     hydrate(data) {
-        this.selectedTrack = data._selectedTrack ?? data._selectedTrack;
-        this.trackList = data._trackList ?? data._trackList;
+        this.selectedTrack = data.selectedTrack ?? data.selectedTrack;
+        this.trackList = data.trackList ?? data.trackList;
     }
 }

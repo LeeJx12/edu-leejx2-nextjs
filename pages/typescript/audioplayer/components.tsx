@@ -11,65 +11,79 @@ import { Observer } from 'mobx-react';
 export function AudioList(): JSX.Element {
     const { trackStore } = useStore();
 
-    const _trackList = trackStore.trackList;
-
     getTracks()
+        .then(trackList => {
+            trackList.forEach(track => {
+                const eventHandler = event => {
+                    const target = event.currentTarget.closest('li');
+                    if (!target.classList.contains('active')) {
+                        target.parentElement.querySelector('li.active')?.classList.remove('active');
+                        target.classList.add('active');
+    
+                        trackStore.selectedTrack = track;
+                    }
+                };
+                track._listItem = AudioListItem(track, eventHandler);
+            });
+
+            return trackList;
+        })
         .then(trackList => trackStore.trackList = trackList);
 
     return (
         <Observer>
-        {() => (
-            <div className={`col ${styles.audio_list}`}>
-                <ul className="list-group">
-                    {
-                        trackStore.trackList && trackStore.trackList.length > 0 && trackStore.trackList.map((track, idx) => {
-                            return (
-                                <li 
-                                    key={track._trackId} 
-                                    className={`list-group-item ${styles['list-group-item']}`}
-                                    onClick={event => {
-                                        const target = event.currentTarget.closest('li');
-                                        if (!target.classList.contains('active')) {
-                                            target.classList.add('active');
-
-                                            trackStore.selectedTrack = track;
-                                        }
-                                    }}
-                                >
-                                    <img className={`cur_p rounded img-thumbnail ${styles['img-thumbnail']}`} src={`${process.env.NEXT_PUBLIC_AUDIO_SERVER_URL}/audio/pic/${track._trackId}`} />
-                                    <span className={`cur_p ${styles['list-item-title']}`}>{track._title}</span>
-                                </li>
-                            )
-                        })
-                    }
-                    {
-                        (!trackStore.trackList || trackStore.trackList.length === 0) &&
-                        <li key="empty">
-                            there is no file!
-                        </li>
-                    }
-                </ul>
-            </div>
-        )}
+        {() => {
+            const _trackList = trackStore.trackList;
+            return (
+                <div className={`col ${styles.audio_list}`}>
+                    <ul className="list-group">
+                        {
+                            _trackList && _trackList.length > 0 && _trackList.map(track => track._listItem)
+                        }
+                        {
+                            (!_trackList || _trackList.length === 0) &&
+                            <li key="empty">
+                                there is no file!
+                            </li>
+                        }
+                    </ul>
+                </div>
+            )
+        }}
         </Observer>
     );
 }
 
-export function AudioPlayer(props: {  }): JSX.Element {
+export function AudioListItem(track: Track, eventHandler: React.MouseEventHandler): JSX.Element {
+    return (
+        <li 
+            key={track._trackId} 
+            className={`list-group-item ${styles['list-group-item']}`}
+            onClick={eventHandler}
+        >
+            <img className={`cur_p rounded img-thumbnail ${styles['img-thumbnail']}`} src={`${process.env.NEXT_PUBLIC_AUDIO_SERVER_URL}/audio/pic/${track._trackId}`} />
+            <span className={`cur_p ${styles['list-item-title']}`}>{track._title}</span>
+        </li>
+    );
+}
+
+export function AudioPlayer(): JSX.Element {
     const { trackStore } = useStore();
-    const track = trackStore.selectedTrack;
 
     return (
         <Observer>
-        {() => (
-            <div className="col-5">
-                <img src={`${process.env.NEXT_PUBLIC_AUDIO_SERVER_URL}/audio/pic/${track?._trackId}`} />
-                <div>
-                    {track?._title}
+        {() => {
+            const track = trackStore.selectedTrack;
+            return (
+                <div className="col-5">
+                    <img src={`${process.env.NEXT_PUBLIC_AUDIO_SERVER_URL}/audio/pic/${track?._trackId}`} />
+                    <div>
+                        {track?._title || '트랙없음'}
+                    </div>
+                    <audio id="player"></audio>
                 </div>
-                <audio id="player"></audio>
-            </div>
-        )}
+            )
+        }}
         </Observer>
     );
 }
