@@ -35,7 +35,7 @@ export function AudioList(): JSX.Element {
         {() => {
             const _trackList = trackStore.trackList;
             return (
-                <div className={`col ${styles.audio_list}`}>
+                <div className={`${styles.audio_list}`}>
                     <ul className="list-group">
                         {
                             _trackList && _trackList.length > 0 && _trackList.map(track => track._listItem)

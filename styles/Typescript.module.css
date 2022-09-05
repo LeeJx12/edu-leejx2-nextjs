@@ -28,6 +28,8 @@
 }
 
 .audio_list {
+  height: 100%;
+  overflow-y: auto;
   min-width: 350px;
   max-width: 350px;
 }
