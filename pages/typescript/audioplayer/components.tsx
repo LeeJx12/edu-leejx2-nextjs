@@ -80,7 +80,7 @@ export function AudioPlayer(): JSX.Element {
                     <div>
                         {track?._title || '트랙없음'}
                     </div>
-                    <audio id="player"></audio>
+                    <audio id="player" src={track?._trackId ? `${process.env.NEXT_PUBLIC_AUDIO_SERVER_URL}/audio/${track?._trackId}` : ''} controls autoPlay></audio>
                 </div>
             )
         }}
