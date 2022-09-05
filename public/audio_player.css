@@ -1,0 +1,208 @@
+/*! minireset.css v0.0.6 | MIT License | github.com/jgthms/minireset.css */
+blockquote, body, dd, dl, dt, fieldset, figure, h1, h2, h3, h4, h5, h6, hr, html, iframe, legend, li, ol, p, pre, textarea, ul {margin:0;padding:0}
+h1, h2, h3, h4, h5, h6 {font-size:100%;font-weight:400}
+ul {list-style:none}
+button, input, select {margin:0}
+html {box-sizing:border-box}
+*, :after, :before {box-sizing:inherit}
+img, video {height:auto;max-width:100%}
+iframe {border:0}
+table {border-collapse:collapse;border-spacing:0}
+td, th {padding:0}
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #909090;
+    border-radius: 8em;
+}
+::-webkit-scrollbar-track {
+    background-color: #202020;
+    border-radius: 8em;
+}
+
+.container_ap {
+    display: flex;
+    height: 100%;
+    background-color: black;
+}
+
+.audio_list {
+    display: inline-block;
+    width: 350px;
+    height: 100%;
+    padding: 5px;
+}
+
+.audio_list ul {
+    list-style-type: disc;
+    height: 100%;
+    overflow: hidden;
+    padding-right: 5px;
+}
+.audio_list ul:hover {
+    overflow: scroll;
+    overflow-x: hidden;
+    padding-right: 0;
+}
+
+.audio_list li {
+    height: 70px;
+    padding: 5px;
+    margin: 0 5px;
+    border-bottom: 1px solid #404040;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.audio_list li.active, li:hover {
+    background-color: #303030;
+}
+
+.audio_list li .info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.audio_list li .info img {
+    height: auto;
+    width: 50px;
+    margin-right: 15px;
+    border-radius: 0.8em;
+}
+
+.audio_list li .info .primary_info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.audio_list li .info .primary_info .title {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.audio_list li .info .primary_info .album {
+    font-size: 15px;
+    font-weight: 500;
+    color: #808080;
+    margin-top: 2px;
+}
+
+.audio_list li .duration {
+    font-size: 16px;
+    font-weight: 500;
+    color: #808080;
+}
+
+.audio_pane {
+    border-left: 1px solid #404040;
+    width: calc(100% - 348px);
+    height: 100%;
+    padding: 20px;
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.ap_top {
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+}
+.ap_top img {
+    border-radius: 0.5em;
+    height: 450px;
+    width: auto;
+    object-fit: contain;
+}
+.ap_top .description {
+    font-size: 16px;
+    font-weight: 500;
+    color: #404040;
+    margin-top: 10px;
+}
+
+.ap_bot {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 40%;
+    height: 18%;
+    min-width: 450px;
+}
+.ap_bot .box_border {
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    border: 5px solid transparent;
+    border-radius: 50px;
+    --angle: 0deg;
+    background: linear-gradient(var(--angle), red, blue) border-box;
+    animation: 4s -rotate linear infinite;
+    -webkit-mask: /*4*/
+    linear-gradient(black 0 0) padding-box, 
+    linear-gradient(black 0 0);
+    -webkit-mask-composite: xor; /*5'*/
+    mask-composite: exclude; /*5*/
+    z-index: 1;
+}
+@property --angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+}
+@keyframes -rotate {
+    25% {
+        --angle: 90deg;
+    }
+    50% {
+        --angle: 180deg;
+    }
+    75% {
+        --angle: 270deg;
+    }
+    100% {
+        --angle: 360deg;
+    }
+}
+
+.ap_bot .title {
+    position: relative;
+    text-align: center;
+    top: 18px;
+    width: 150px;
+    height: 40px;
+    background-color: black;
+    color: white;
+    font-size: 24px;
+    z-index: 2;
+}
+
+.ap_bot .toolbox {
+    width: 100%;
+    position: relative;
+    bottom: 58px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.toolbox .icon {
+    width: 36px;
+    height: auto;
+    cursor: pointer;
+    z-index: 3;
+}

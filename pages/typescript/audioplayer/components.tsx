@@ -13,7 +13,7 @@ export function AudioList(): JSX.Element {
 
     getTracks()
         .then(trackList => {
-            trackList.forEach(track => {
+            trackList.forEach((track, idx) => {
                 const eventHandler = event => {
                     const target = event.currentTarget.closest('li');
                     if (!target.classList.contains('active')) {
@@ -23,12 +23,15 @@ export function AudioList(): JSX.Element {
                         trackStore.selectedTrack = track;
                     }
                 };
-                track._listItem = AudioListItem(track, eventHandler);
+                track._listItem = AudioListItem(track, eventHandler, idx === 0);
             });
 
             return trackList;
         })
-        .then(trackList => trackStore.trackList = trackList);
+        .then(trackList => {
+            trackStore.trackList = trackList
+            trackStore.selectedTrack = trackList[0];
+        });
 
     return (
         <Observer>
@@ -54,11 +57,11 @@ export function AudioList(): JSX.Element {
     );
 }
 
-export function AudioListItem(track: Track, eventHandler: React.MouseEventHandler): JSX.Element {
+export function AudioListItem(track: Track, eventHandler: React.MouseEventHandler, isActive: boolean): JSX.Element {
     return (
         <li 
             key={track._trackId} 
-            className={`list-group-item ${styles['list-group-item']}`}
+            className={`list-group-item ${styles['list-group-item']} ${isActive ? 'active' : ''}`}
             onClick={eventHandler}
         >
             <img className={`cur_p rounded img-thumbnail ${styles['img-thumbnail']}`} src={`${process.env.NEXT_PUBLIC_AUDIO_SERVER_URL}/audio/pic/${track._trackId}`} />
@@ -74,9 +77,10 @@ export function AudioPlayer(): JSX.Element {
         <Observer>
         {() => {
             const track = trackStore.selectedTrack;
+            const coverImg = track ? `${process.env.NEXT_PUBLIC_AUDIO_SERVER_URL}/audio/pic/${track?._trackId}` : '';
             return (
                 <div className="col-5">
-                    <img src={`${process.env.NEXT_PUBLIC_AUDIO_SERVER_URL}/audio/pic/${track?._trackId}`} />
+                    <img src={coverImg} />
                     <div>
                         {track?._title || '트랙없음'}
                     </div>
