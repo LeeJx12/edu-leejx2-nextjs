@@ -7,6 +7,7 @@ import { action, flow, observable, runInAction } from 'mobx';
 import { StoreContext, useStore } from '../../context';
 import { getTracks } from './functions';
 import { Observer } from 'mobx-react';
+import { AudioPlayer } from './base';
 
 export function AudioList(): JSX.Element {
     const { trackStore } = useStore();
@@ -70,7 +71,7 @@ export function AudioListItem(track: Track, eventHandler: React.MouseEventHandle
     );
 }
 
-export function AudioPlayer(): JSX.Element {
+export function AudioPlayerPane(): JSX.Element {
     const { trackStore } = useStore();
 
     return (
@@ -84,7 +85,7 @@ export function AudioPlayer(): JSX.Element {
                     <div>
                         {track?._title || '트랙없음'}
                     </div>
-                    <audio id="player" src={track?._trackId ? `${process.env.NEXT_PUBLIC_AUDIO_SERVER_URL}/audio/${track?._trackId}` : ''} controls autoPlay></audio>
+                    <AudioPlayer trackStore={trackStore}/>
                 </div>
             )
         }}
