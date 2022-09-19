@@ -27,7 +27,7 @@ export class AudioPlayer extends React.Component<Props> {
         document.querySelector("#duration").innerHTML = this.calculateTime(document.querySelector("audio").currentTime) + ' / ' + this.calculateTime(document.querySelector("audio").duration);
     }
 
-    calculateTime = (secs) => {
+    calculateTime = (secs: number) => {
         const minutes = Math.floor(secs / 60);
         const seconds = Math.floor(secs % 60);
         const returnedSeconds = seconds < 10 ? `0${seconds}` : `${seconds}`;
